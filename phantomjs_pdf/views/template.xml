@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template t-name="phantomjs_pdf.base" name="Base layout">&lt;!DOCTYPE html&gt;
+            <html>
+                <head>
+                    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+                    <title>Example report for <t t-esc="user"/></title>
+                    <link href="/phantomjs/src/css/style.css" rel="stylesheet"/>
+                </head>
+                <body>
+                    <div class="full-page page">
+                        <div class='row'>
+                            <div class='h-big-ratio left'>
+                                <h2><t t-esc="user"/></h2>
+                            </div>
+                            <div class='h-small-ratio'>
+                                <img class='right' style="height: 40px;" t-att-src="'data:image/png;base64,'+company_logo"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h1>Apple Stock Over Time</h1>
+                            <div id="chart"></div>
+                            <h1>Table</h1>
+                            <div>
+                                <table class="striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table"></tbody>
+                                </table>
+                            </div>
+                            <script src="/phantomjs/src/js/jquery.js"></script>
+                            <script src="/phantomjs/src/js/d3.js"></script>
+                            <script src="/phantomjs/src/js/draw_graph.js"></script>
+                        </div>
+                    </div>
+                </body>
+            </html>
+        </template>
+    </data>
+</openerp>
