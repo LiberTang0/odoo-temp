@@ -9,13 +9,15 @@ from openerp.osv import fields
 
 endpoint = '/phantomjs/'
 
-class MobileFrontend(openerp.addons.web.controllers.main.Home):
+class PhantomJSPDF(openerp.addons.web.controllers.main.Home):
 
     def mimeifier(self, type):
         if type == 'css':
             return 'text/css'
         if type == 'js':
             return 'text/javascript'
+        if type == 'tsv':
+            return 'text/tab-separated-values'
 
     @http.route(endpoint + 'src/<type>/<resource>', type='http', auth='none')
     def get_resource(self, type, resource, *args, **kw):
