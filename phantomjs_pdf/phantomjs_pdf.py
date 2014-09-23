@@ -8,14 +8,15 @@ from openerp.modules.module import get_module_path
 class PhantomJSPDF(osv.AbstractModel):
 
     _name = 'phantomjs.pdf'
-    js_file_to_use = get_module_path('phantomjs_pdf') + '/static/src/js/phantom_print.js'
+    js_file_to_use = get_module_path('phantomjs_pdf') + '/static/js/phantomjs_print.js'
 
     def phantomjs_print(self, cr, uid, options={}, context=None):
         users_pool = self.pool['res.users']
         user_info = users_pool.read(cr, uid, uid, ['name', 'login', 'password'])
         user_name = user_info['name']
-        auth_details = '{0}:{1}'.format(user_info['login'], user_info['password']).encode('base64')
+        auth_details = user_info['login']  #'{0}:{1}'.format(user_info['login'], user_info['password']).encode('base64')
         save_to_database = False
+        database = options['database']
 
         # Read options
         url = options['url']
@@ -34,7 +35,7 @@ class PhantomJSPDF(osv.AbstractModel):
 
             printed = subprocess.check_output([phantom_loc,
                                                js_file,
-                                               url+'&user={0}'.format(user_name), auth_details, filename])
+                                               url+'&user={0}'.format(user_name), auth_details, database,  filename])
             print "JS would have run and printed by now in {0}".format(printed)
             print_result = eval(printed)
 
