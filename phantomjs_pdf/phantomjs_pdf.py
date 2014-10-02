@@ -21,7 +21,7 @@ class PhantomJSPDF(osv.AbstractModel):
         # Read options
         url = options['url']
         filename = options['fname']
-        if 'res_model' and 'red_id' and 'datas_fname' and 'name' and'description' in options:
+        if 'res_model' and 'res_id' and 'datas_fname' and 'name' and'description' in options:
             model = options['res_model']
             id = options['res_id']
             datas_fname = options['datas_fname']

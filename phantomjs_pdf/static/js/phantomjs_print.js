@@ -20,6 +20,7 @@ outputFile = system.args[4];
 //page.customHeaders={'Authorization': 'Basic '+login_details};
 output['errors'] = new Array();
 output['file_name'] = "";
+output['msg'] = new Array();
 
 
 page.paperSize = {
@@ -42,7 +43,7 @@ page.onConsoleMessage = function(message, lineNum, sourceId){
         'line': lineNum,
         'sourceId': sourceId
     }
-    output['msg'].append(message_dict);
+    output['msg'].push(message_dict);
 };
 
 page.onError = function(msg, trace) {
