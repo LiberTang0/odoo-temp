@@ -29,71 +29,71 @@ class PhantomJSPDF(osv.AbstractModel):
             description = options['description']
             save_to_database = True
 
-        try:
+
             js_file = self.js_file_to_use
             phantom_loc = 'phantomjs'
-
+        try:
             printed = subprocess.check_output([phantom_loc,
                                                js_file,
                                                url+'&user={0}'.format(user_name), auth_details, database,  filename])
-            print "JS would have run and printed by now in {0}".format(printed)
-            print_result = eval(printed)
-
-            print print_result['file_name']
-            printed = print_result['file_name']
-            for error in print_result['errors']:
-                print "{0}".format(error['message'])
-
-            # do an eval on the returned dictionary
-
-
-            if printed and len(print_result['errors']) < 1 and save_to_database:
-                encoded_pdf = open(printed.rstrip(), "rb").read().encode("base64")
-                ir_attachment_pool = self.pool['ir.attachment']
-                existing_attachments = ir_attachment_pool.search(cr, uid,
-                                                                 [['res_model', '=', model],
-                                                                  ['res_id', '=', id]], context=context)
-
-                for e in existing_attachments:
-                    print "attachment id is {0} and visit id is {1}".format(e, id)
-                values = {
-                    'name': name,
-                    'datas_fname': datas_fname,
-                    'description': description,
-                    'res_model': model,
-                    'res_id': id,
-                    'type': 'binary',
-                    'datas': encoded_pdf,
-                    }
-                i = 1
-                while i<5:
-                    try:
-                        if not existing_attachments:
-                            new_attachment = ir_attachment_pool.create(cr, uid, values, context=context)
-                            if new_attachment:
-                                cr.commit()
-                            print "creating a new attachment"
-                            return new_attachment
-                        else:
-                            ir_attachment_pool.write(cr, uid, existing_attachments[0], values, context=context)
-                            cr.commit()
-                            print "updating existing attachment - {0}".format(existing_attachments[0])
-                            return existing_attachments[0]
-                    except:
-                        time.sleep(i)
-                        i += 1
-                        print "except. inc %s" % i
-                    else:
-                        break
-
-            elif not save_to_database:
-                return "Report printed but not saved in database"
-            else:
-                if printed:
-                    return "Report printed with Errors: {0}".format(print_result['errors'])
-                else:
-                    return "Error printing report: {0}".format(print_result['errors'])
         except OSError:
             return "Phantom JS not found"
         except subprocess.CalledProcessError, e:
-            return e.output
+            return e.output        
+    
+        print "JS would have run and printed by now in {0}".format(printed)
+        print_result = eval(printed)
+
+        print print_result['file_name']
+        printed = print_result['file_name']
+        for error in print_result['errors']:
+            print "{0}".format(error['message'])
+
+        # do an eval on the returned dictionary
+
+
+        if printed and len(print_result['errors']) < 1 and save_to_database:
+            encoded_pdf = open(printed.rstrip(), "rb").read().encode("base64")
+            ir_attachment_pool = self.pool['ir.attachment']
+            existing_attachments = ir_attachment_pool.search(cr, uid,
+                                                             [['res_model', '=', model],
+                                                              ['res_id', '=', id]], context=context)
+
+            for e in existing_attachments:
+                print "attachment id is {0} and visit id is {1}".format(e, id)
+            values = {
+                'name': name,
+                'datas_fname': datas_fname,
+                'description': description,
+                'res_model': model,
+                'res_id': id,
+                'type': 'binary',
+                'datas': encoded_pdf,
+                }
+            i = 1
+            attachment_id = existing_attachments and existing_attachments[0] or None
+            cr.commit()
+
+#             import pdb; pdb.set_trace()
+            while i<5:
+                try:
+                    if not attachment_id:
+                        attachment_id = ir_attachment_pool.create(cr, uid, {}, context=context)
+                    ir_attachment_pool.write(cr, uid, attachment_id, values, context=context)
+                    #print "updating existing attachment - {0}".format(attachment_id)
+                except Exception as e:
+                    print "Exception inc %s" % i
+                    cr.rollback()
+                    time.sleep(i)
+                    i += 1
+                else:
+                    cr.commit()
+                    break
+            return attachment_id
+        elif not save_to_database:
+            return "Report printed but not saved in database"
+        else:
+            if printed:
+                return "Report printed with Errors: {0}".format(print_result['errors'])
+            else:
+                return "Error printing report: {0}".format(print_result['errors'])
