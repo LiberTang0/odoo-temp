@@ -78,8 +78,9 @@ class PhantomJSPDF(osv.AbstractModel):
             while i<5:
                 try:
                     if not attachment_id:
-                        attachment_id = ir_attachment_pool.create(cr, uid, {}, context=context)
-                    ir_attachment_pool.write(cr, uid, attachment_id, values, context=context)
+                        attachment_id = ir_attachment_pool.create(cr, uid, values, context=context)
+                    else:
+                        ir_attachment_pool.write(cr, uid, attachment_id, values, context=context)
                     #print "updating existing attachment - {0}".format(attachment_id)
                 except Exception as e:
                     print "Exception inc %s" % i
@@ -89,7 +90,7 @@ class PhantomJSPDF(osv.AbstractModel):
                 else:
                     cr.commit()
                     break
-            return attachment_id
+            return attachment_id, context
         elif not save_to_database:
             return "Report printed but not saved in database"
         else:

@@ -61,7 +61,7 @@ page.onError = function(msg, trace) {
 }
 
 
-page.open('http://localhost:8069/login?db='+database+'&login='+login_details+'&key='+login_details+'&redirect='+address, function(status){
+page.open('http://localhost:8169/login?db='+database+'&login='+login_details+'&key='+login_details+'&redirect='+address, function(status){
 
     if(status=="success") {
 
