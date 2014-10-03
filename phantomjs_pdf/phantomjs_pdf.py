@@ -1,5 +1,5 @@
 __author__ = 'colin'
-import subprocess
+import subprocess, time
 from openerp.osv import osv
 from datetime import datetime
 from openerp.modules.module import get_module_path
@@ -65,18 +65,27 @@ class PhantomJSPDF(osv.AbstractModel):
                     'type': 'binary',
                     'datas': encoded_pdf,
                     }
+                i = 1
+                while i<5:
+                    try:
+                        if not existing_attachments:
+                            new_attachment = ir_attachment_pool.create(cr, uid, values, context=context)
+                            if new_attachment:
+                                cr.commit()
+                            print "creating a new attachment"
+                            return new_attachment
+                        else:
+                            ir_attachment_pool.write(cr, uid, existing_attachments[0], values, context=context)
+                            cr.commit()
+                            print "updating existing attachment - {0}".format(existing_attachments[0])
+                            return existing_attachments[0]
+                    except:
+                        time.sleep(i)
+                        i += 1
+                        print "except. inc %s" % i
+                    else:
+                        break
 
-                if not existing_attachments:
-                    new_attachment = ir_attachment_pool.create(cr, uid, values, context=context)
-                    if new_attachment:
-                        cr.commit()
-                    print "creating a new attachment"
-                    return new_attachment
-                else:
-                    ir_attachment_pool.write(cr, uid, existing_attachments[0], values, context=context)
-                    cr.commit()
-                    print "updating existing attachment - {0}".format(existing_attachments[0])
-                    return existing_attachments[0]
             elif not save_to_database:
                 return "Report printed but not saved in database"
             else:
