@@ -8,7 +8,7 @@
     'description': """PDF Printing using PhantomJS""",
     'author': 'Neova Health',
     'website': 'http://www.neovahealth.co.uk',
-    'depends': ['web', 'nh_clinical_api', 'nh_clinical_base', 'nh_clinical_activity_types'],
+    'depends': [],
     'data': ['views/template.xml'],
     'demo': [],
     'images': [],
