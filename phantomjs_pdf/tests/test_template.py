@@ -51,7 +51,6 @@ class TestTemplate(common.SingleTransactionCase):
 
     def setUp(self):
         super(TestTemplate, self).setUp()
-        self.registry = openerp.modules.registry.RegistryManager.get('t4clinical_test')
         self.uid = 1
         self.host = 'http://localhost:8169'
 
