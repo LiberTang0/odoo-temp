@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 {
-    'name': 'NH Clinical activity types',
+    'name': 'NH Clinical Glasgow Coma Score Observation',
     'version': '0.1',
     'category': 'Clinical',
     'license': 'AGPL-3',
