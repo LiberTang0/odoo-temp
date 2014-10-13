@@ -20,7 +20,7 @@ class PhantomJSPDF(openerp.addons.web.controllers.main.Home):
             return 'text/tab-separated-values'
 
     @http.route(endpoint + 'src/<type>/<resource>', type='http', auth='none')
-    def get_resource(self, type, resource, *args, **kw):
+    def get_phantomjs_resource(self, type, resource, *args, **kw):
         with open(get_module_path('phantomjs_pdf') + '/static/{type}/{resource}'.format(type=type, resource=resource), 'r') as resource:
             return request.make_response(resource.read(), headers={'Content-Type': self.mimeifier(type)})
 
