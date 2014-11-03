@@ -74,8 +74,7 @@ class PhantomJSPDF(osv.AbstractModel):
             attachment_id = existing_attachments and existing_attachments[0] or None
             cr.commit()
 
-#             import pdb; pdb.set_trace()
-            while i<5:
+            while i < 5:
                 try:
                     if not attachment_id:
                         attachment_id = ir_attachment_pool.create(cr, uid, values, context=context)
