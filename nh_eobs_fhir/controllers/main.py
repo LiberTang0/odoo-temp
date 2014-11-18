@@ -13,29 +13,50 @@ class MobileFrontend(http.Controller):
     #    self.users = users
     #    self.realm = realm
 
-    @http.route('/api/patient/<patient_id>', type='http', auth='none')
-    def get_patient(self, patient_id, *args, **kw):
+    @http.route('/api/patient', type='http', auth='none')
+    def search_patients(self, *args, **kw):
         uid = self.authenticate(request)
         if uid:
-            raw_patient_info = request.session.model('nh.clinical.patient').read([int(patient_id)])
-            #patient_info = request.session.model('nh.eobs.api').get_patients([int(patient_id)])
-            if len(raw_patient_info) > 0:
-                patient_fhir = self.fhir_skeleton()
-                patient_fhir['resourceType'] = 'Patient'
-                patient = raw_patient_info[0]
-                patient_fhir['name'] = self.process_patient_name(patient)
-                patient_fhir['identifier'] = self.process_patient_identifier(patient)
-                patient_fhir['telecom'] = self.process_patient_telecom(patient)
-                patient_fhir['gender'] = self.process_patient_gender(patient)
-                patient_fhir['birthDate'] = self.process_patient_birthdate(patient)
-                patient_fhir['address'] = self.process_patient_address(patient)
-                return request.make_response(json.dumps(patient_fhir), headers={'Content-Type': 'application/json'})
-            else:
-                return request.make_response(json.dumps({'status': 2, 'error': 'Patient not found'}), headers={'Content-Type': 'application/json'})
+            # get the params from the URL and turn into a search domain
+            search_domain = []
+            for k,v in request.params.iteritems():
+                if k in ['_id', '_language', 'active', 'address', 'animal-breed', 'animal-species', 'birthdate', 'family', 'gender', 'given', 'identifier', 'language', 'link', 'name', 'phonetic', 'provider', 'telecom']:
+                    search_domain.append([self.process_search_key(k),'=',v])
+            # Do a search with the domain
+            patient_ids = request.session.model('nh.clinical.patient').search(search_domain)
+            patients = []
+            for patient_id in patient_ids:
+                patients.append(self.process_patient_fhir(patient_id))
+                return request.make_response(json.dumps(patients), headers={'Content-Type': 'application/json'})
         else:
             return Response('Could not verify your access level for that URL.\n'
                             'You have to login with proper credentials', 401,
                             {'WWW-Authenticate': 'Basic realm="login required"'})
+
+    @http.route('/api/Patient/<patient_id>', type='http', auth='none')
+    def read_patients(self, patient_id, *args, **kw):
+        uid = self.authenticate(request)
+        if uid:
+            return request.make_response(json.dumps(self.process_patient_fhir(int(patient_id))), headers={'Content-Type': 'application/json'})
+        else:
+            return Response('Could not verify your access level for that URL.\n'
+                            'You have to login with proper credentials', 401,
+                            {'WWW-Authenticate': 'Basic realm="login required"'})
+
+    def process_patient_fhir(self, id):
+        raw_patient_info = request.session.model('nh.clinical.patient').read([id])
+        #patient_info = request.session.model('nh.eobs.api').get_patients([int(patient_id)])
+        if len(raw_patient_info) > 0:
+            patient_fhir = self.fhir_skeleton()
+            patient_fhir['resourceType'] = 'Patient'
+            patient = raw_patient_info[0]
+            patient_fhir['name'] = self.process_patient_name(patient)
+            patient_fhir['identifier'] = self.process_patient_identifier(patient)
+            patient_fhir['telecom'] = self.process_patient_telecom(patient)
+            patient_fhir['gender'] = self.process_patient_gender(patient)
+            patient_fhir['birthDate'] = self.process_patient_birthdate(patient)
+            patient_fhir['address'] = self.process_patient_address(patient)
+        return patient_fhir
 
     def fhir_skeleton(self):
         fhir = {}
@@ -164,3 +185,19 @@ class MobileFrontend(http.Controller):
 
     def check_auth(self, db, username, password):
         return request.session.authenticate(db, username, password)
+
+    def process_search_key(self, key):
+        if key == 'identifier':
+            return 'patient_identifier'
+        elif key == 'given':
+            return 'given_name'
+        elif key == 'family':
+            return 'family_name'
+        elif key == 'name':
+            return 'full_name'
+        elif key == 'gender':
+            return 'gender'
+        elif key == '_id':
+            return 'id'
+        else:
+            return 'id'
