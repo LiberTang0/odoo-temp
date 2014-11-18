@@ -157,8 +157,8 @@ class MobileFrontend(http.Controller):
             return 'Female'
 
     def authenticate(self, request):
-        if request.httprequest.authorization:
-            return self.check_auth('nhclinical', request.httprequest.authorization.username, request.httprequest.authorization.password)
+        if request.httprequest.authorization and request.params.get('db'):
+            return self.check_auth(request.params.get('db'), request.httprequest.authorization.username, request.httprequest.authorization.password)
         else:
             return False
 
