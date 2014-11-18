@@ -7,11 +7,8 @@ from openerp.http import request
 from werkzeug import utils, exceptions
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DTF
 
-class MobileFrontend(http.Controller):
+class FHIRAPI(http.Controller):
 
-    #def __init__(self, users, realm='login required'):
-    #    self.users = users
-    #    self.realm = realm
 
     @http.route('/api/patient', type='http', auth='none')
     def search_patients(self, *args, **kw):
