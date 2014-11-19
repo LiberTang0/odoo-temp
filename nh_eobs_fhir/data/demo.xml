@@ -1,0 +1,66 @@
+<openerp>
+    <data>
+
+        <!-- api user -->
+        <record id="nh_eobs_fhir_api_user" model="res.users">
+            <field name="name">Open-eObs FHIR API User</field>
+            <field name="login">fhir_api</field>
+            <field name="password">fhir_api</field>
+            <field name="groups_id" eval="[(4, ref('nh_clinical.group_nhc_admin'))]"/>
+        </record>
+
+        <!-- example adult male patient for api -->
+        <record id="nh_eobs_fhir_example_adult_male" model="nh.clinical.patient">
+            <field name="family_name">Bryan</field>
+            <field name="given_name">Graham</field>
+            <field name="gender">M</field>
+            <field name="dob">1943-08-24 00:00</field>
+            <field name="street">60 The Drive</field>
+            <field name="street2">Hill</field>
+            <field name="city">Denholme Clough</field>
+            <field name="zip">LS18 3VY</field>
+            <field name="other_identifier">0001</field>
+            <field name="patient_identifier">79455850345</field>
+        </record>
+
+        <!-- example adult female patient for api -->
+        <record id="nh_eobs_fhir_example_adult_female" model="nh.clinical.patient">
+            <field name="family_name">Bryan</field>
+            <field name="given_name">Audrey</field>
+            <field name="gender">F</field>
+            <field name="dob">1952-06-12 00:00</field>
+            <field name="street">60 The Drive</field>
+            <field name="street2">Hill</field>
+            <field name="city">Denholme Clough</field>
+            <field name="zip">LS18 3VY</field>
+            <field name="other_identifier">0002</field>
+            <field name="patient_identifier">7870345</field>
+        </record>
+
+        <!-- example child female patient for api -->
+        <record id="nh_eobs_fhir_example_child_female" model="nh.clinical.patient">
+            <field name="family_name">Dalton</field>
+            <field name="given_name">Kim</field>
+            <field name="gender">F</field>
+            <field name="dob">2008-05-12 00:00</field>
+            <field name="street">60 Florida Gardens</field>
+            <field name="city">Garrowhill</field>
+            <field name="zip">LS23 4RT</field>
+            <field name="other_identifier">0003</field>
+            <field name="patient_identifier">7430345</field>
+        </record>
+
+        <!-- example child male patient for api -->
+        <record id="nh_eobs_fhir_example_child_male" model="nh.clinical.patient">
+            <field name="family_name">Dalton</field>
+            <field name="given_name">Jonny</field>
+            <field name="gender">M</field>
+            <field name="dob">2004-07-12 00:00</field>
+            <field name="street">60 Florida Gardens</field>
+            <field name="city">Garrowhill</field>
+            <field name="zip">LS23 4RT</field>
+            <field name="other_identifier">0004</field>
+            <field name="patient_identifier">7430444</field>
+        </record>
+    </data>
+</openerp>
