@@ -10,7 +10,7 @@ from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DTF
 class FHIRAPI(http.Controller):
 
 
-    @http.route('/api/patient', type='http', auth='none')
+    @http.route('/api/v1/patient', type='http', auth='none')
     def search_patients(self, *args, **kw):
         uid = self.authenticate(request)
         if uid:
@@ -30,7 +30,7 @@ class FHIRAPI(http.Controller):
                             'You have to login with proper credentials', 401,
                             {'WWW-Authenticate': 'Basic realm="login required"'})
 
-    @http.route('/api/Patient/<patient_id>', type='http', auth='none')
+    @http.route('/api/v1/Patient/<patient_id>', type='http', auth='none')
     def read_patients(self, patient_id, *args, **kw):
         uid = self.authenticate(request)
         if uid:
@@ -154,13 +154,27 @@ class FHIRAPI(http.Controller):
         identifiers = []
         if patient['patient_identifier']:
             id = {}
-            id['system'] = 'http://nhs.uk/fhir/nhs-number/'
+            id['system'] = 'NHS'
             id['value'] = patient['patient_identifier']
             id['use'] = 'national'
             id['label'] = 'NHS Number'
             identifiers.append(id)
 
-        #if patient['other_identifier']:
+        if patient['other_identifier']:
+            id = {}
+            id['system'] = 'Hospital'
+            id['value'] = patient['other_identifier']
+            id['use'] = 'hospital'
+            id['label'] = 'Hospital Number'
+            identifiers.append(id)
+
+        if patient['id']:
+            id = {}
+            id['system'] = 'Open-eObs'
+            id['value'] = patient['id']
+            id['use'] = 'Open-eObs'
+            id['label'] = 'Open-eObs ID'
+            identifiers.append(id)
 
         return identifiers
 
@@ -175,6 +189,7 @@ class FHIRAPI(http.Controller):
             return 'Female'
 
     def authenticate(self, request):
+        # return self.check_auth(request.params.get('db'), 'fhir_api', 'fhir_api')
         if request.httprequest.authorization and request.params.get('db'):
             return self.check_auth(request.params.get('db'), request.httprequest.authorization.username, request.httprequest.authorization.password)
         else:
