@@ -13,6 +13,7 @@
         <record id="nh_eobs_fhir_example_adult_male" model="nh.clinical.patient">
             <field name="family_name">Bryan</field>
             <field name="given_name">Graham</field>
+            <field name="title">6</field>
             <field name="gender">M</field>
             <field name="dob">1943-08-24 00:00</field>
             <field name="street">60 The Drive</field>
@@ -27,6 +28,7 @@
         <record id="nh_eobs_fhir_example_adult_female" model="nh.clinical.patient">
             <field name="family_name">Bryan</field>
             <field name="given_name">Audrey</field>
+            <field name="title">3</field>
             <field name="gender">F</field>
             <field name="dob">1952-06-12 00:00</field>
             <field name="street">60 The Drive</field>
@@ -41,6 +43,7 @@
         <record id="nh_eobs_fhir_example_child_female" model="nh.clinical.patient">
             <field name="family_name">Dalton</field>
             <field name="given_name">Kim</field>
+            <field name="title">4</field>
             <field name="gender">F</field>
             <field name="dob">2008-05-12 00:00</field>
             <field name="street">60 Florida Gardens</field>
@@ -54,6 +57,7 @@
         <record id="nh_eobs_fhir_example_child_male" model="nh.clinical.patient">
             <field name="family_name">Dalton</field>
             <field name="given_name">Jonny</field>
+            <field name="title">6</field>
             <field name="gender">M</field>
             <field name="dob">2004-07-12 00:00</field>
             <field name="street">60 Florida Gardens</field>
