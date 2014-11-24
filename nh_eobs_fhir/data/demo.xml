@@ -9,6 +9,12 @@
             <field name="groups_id" eval="[(4, ref('nh_clinical.group_nhc_admin'))]"/>
         </record>
 
+        <!-- <record id="state_gb_1" model="res.country.state">
+            <field name="name">Yorkshire</field>
+            <field name="code">YK</field>
+            <field name="country_id" ref="base.gb"/>
+        </record>  -->
+
         <!-- example adult male patient for api -->
         <record id="nh_eobs_fhir_example_adult_male" model="nh.clinical.patient">
             <field name="family_name">Bryan</field>
@@ -19,6 +25,7 @@
             <field name="street">60 The Drive</field>
             <field name="street2">Hill</field>
             <field name="city">Denholme Clough</field>
+            <field name="state_id" ref="state_gb_1"/>
             <field name="zip">LS18 3VY</field>
             <field name="other_identifier">0001</field>
             <field name="patient_identifier">79455850345</field>
@@ -34,6 +41,7 @@
             <field name="street">60 The Drive</field>
             <field name="street2">Hill</field>
             <field name="city">Denholme Clough</field>
+            <field name="state_id" ref="state_gb_1"/>
             <field name="zip">LS18 3VY</field>
             <field name="other_identifier">0002</field>
             <field name="patient_identifier">7870345</field>
@@ -48,6 +56,7 @@
             <field name="dob">2008-05-12 00:00</field>
             <field name="street">60 Florida Gardens</field>
             <field name="city">Garrowhill</field>
+            <field name="state_id" ref="state_gb_1"/>
             <field name="zip">LS23 4RT</field>
             <field name="other_identifier">0003</field>
             <field name="patient_identifier">7430345</field>
@@ -62,6 +71,7 @@
             <field name="dob">2004-07-12 00:00</field>
             <field name="street">60 Florida Gardens</field>
             <field name="city">Garrowhill</field>
+            <field name="state_id" ref="state_gb_1"/>
             <field name="zip">LS23 4RT</field>
             <field name="other_identifier">0004</field>
             <field name="patient_identifier">7430444</field>

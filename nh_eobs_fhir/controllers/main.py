@@ -160,8 +160,8 @@ class FHIRAPI(http.Controller):
                 home_address['city'] = patient['city']
                 text_address.append(patient['city'])
             if patient['state_id']:
-                home_address['state'] = request.session.model('res.country.state').read(patient['state_id'])['display_name']
-                text_address.append(patient['state'])
+                home_address['state'] = request.session.model('res.country.state').read(patient['state_id'][0])['display_name']
+                text_address.append(home_address['state'])
             if patient['zip']:
                 home_address['zip'] = patient['zip']
                 text_address.append(patient['zip'])
