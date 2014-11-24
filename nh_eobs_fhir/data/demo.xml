@@ -9,12 +9,6 @@
             <field name="groups_id" eval="[(4, ref('nh_clinical.group_nhc_admin'))]"/>
         </record>
 
-        <!-- <record id="state_gb_1" model="res.country.state">
-            <field name="name">Yorkshire</field>
-            <field name="code">YK</field>
-            <field name="country_id" ref="base.gb"/>
-        </record>  -->
-
         <!-- example adult male patient for api -->
         <record id="nh_eobs_fhir_example_adult_male" model="nh.clinical.patient">
             <field name="family_name">Bryan</field>
@@ -75,6 +69,52 @@
             <field name="zip">LS23 4RT</field>
             <field name="other_identifier">0004</field>
             <field name="patient_identifier">7430444</field>
+        </record>
+
+        <!-- example child male patient for api -->
+        <record id="nh_eobs_fhir_example_child_male_two" model="nh.clinical.patient">
+            <field name="family_name">Jones</field>
+            <field name="given_name">Robin</field>
+            <field name="title">6</field>
+            <field name="gender">M</field>
+            <field name="dob">2008-11-30 00:00</field>
+            <field name="street">43 Islay Road</field>
+            <field name="city">Garrowhill</field>
+            <field name="state_id" ref="state_gb_1"/>
+            <field name="zip">LS23 4SP</field>
+            <field name="other_identifier">0005</field>
+            <field name="patient_identifier">2124526789</field>
+        </record>
+
+        <!-- example child male patient for api -->
+        <record id="nh_eobs_fhir_example_child_female_two" model="nh.clinical.patient">
+            <field name="family_name">Jones</field>
+            <field name="given_name">Keira</field>
+            <field name="title">4</field>
+            <field name="gender">F</field>
+            <field name="dob">2009-03-23 00:00</field>
+            <field name="street">43 Islay Road</field>
+            <field name="city">Garrowhill</field>
+            <field name="state_id" ref="state_gb_1"/>
+            <field name="zip">LS23 4SP</field>
+            <field name="other_identifier">0006</field>
+            <field name="patient_identifier">8654303456</field>
+        </record>
+
+        <!-- example adult male patient for api -->
+        <record id="nh_eobs_fhir_example_adult_male_two" model="nh.clinical.patient">
+            <field name="family_name">Jones</field>
+            <field name="given_name">Alfred</field>
+            <field name="title">6</field>
+            <field name="gender">M</field>
+            <field name="dob">1950-07-24 00:00</field>
+            <field name="street">The Beeches</field>
+            <field name="street2">20 Lakeshore Drive</field>
+            <field name="city">Kettering</field>
+            <field name="state_id" ref="state_gb_2"/>
+            <field name="zip">NN15 6RT</field>
+            <field name="other_identifier">0007</field>
+            <field name="patient_identifier">6945857734</field>
         </record>
     </data>
 </openerp>

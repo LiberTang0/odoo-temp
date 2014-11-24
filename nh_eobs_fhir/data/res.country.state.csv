@@ -1,2 +1,3 @@
 "id","country_id:id","name","code"
-state_gb_1,base.uk,"Yorkshire","YK"
+state_gb_1,base.uk,"West Yorkshire","YK"
+state_gb_2,base.uk,"Northampton", "NN"
